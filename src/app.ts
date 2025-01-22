@@ -1,9 +1,9 @@
-import express, {Response, Request} from 'express';
+import express, {Response, Request} from "express";
 
-const app = express();
+const app = express()
 
-app.get('/', (req:Request,res:Response) => {
-    res.send('Bienvenido al backend')
+app.get('/', (rec:Request, res: Response) => {
+    res.send('Bienvendio al backend (api rest)')
 })
 
 export default app
