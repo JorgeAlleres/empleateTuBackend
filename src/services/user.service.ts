@@ -1,4 +1,4 @@
-import { PrismaClient} from "@prisma/client";
+import { PrismaClient} from "prisma/prisma-client";
 
 const prisma = new PrismaClient()
 export class UserService {
@@ -13,5 +13,10 @@ export class UserService {
         const findUser = await prisma.user.findUnique({where:{email}, omit:{password:true}})
         if(!findUser) throw new Error('User not found')
         return findUser
+    }
+
+    static async getAll() {
+        const findUsers = await prisma.user.findMany({omit:{password:true}})
+        return findUsers
     }
 }
