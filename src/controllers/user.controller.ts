@@ -12,7 +12,7 @@ export class UserController{
             const users = await UserService.getAll()
             res.status(200).json(users)
         } catch(error) {
-            res.status(409).json({message:'User list error ' + error})
+            res.status(409).json({message:'User list error: ' + error})
         }
     }
 }

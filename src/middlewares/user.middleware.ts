@@ -9,6 +9,6 @@ export const isAdmin = (req: Request, res: Response, next: NextFunction): any =>
         if (role != 'admin') throw new Error('Access denied')
         next()
     } catch(error) {
-        res.status(403).json({error:'Access denied'})
+        res.status(403).json({error:'Access denied: '+ error})
     }
 }
