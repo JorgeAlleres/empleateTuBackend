@@ -5,7 +5,7 @@ import { isAdmin } from "@/middlewares/user.middleware";
 
 const router = Router()
 
-router.get('/', isAdmin, isAuthenticate, UserController.usersList)
+router.get('/', isAuthenticate, isAdmin, UserController.usersList)
 router.get('/profile', isAuthenticate, UserController.profile)
 
 //CREA EL ENDPOINT QUE LISTE TODOS LOS USUARIOS DE LA WEB
