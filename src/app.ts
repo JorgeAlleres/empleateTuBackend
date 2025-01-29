@@ -5,6 +5,7 @@ import compression from 'compression'
 import cookieParser from 'cookie-parser'
 import authRouter from 'routes/auth.routes'
 import userRouter from 'routes/user.routes'
+import offerRouter from 'routes/offer.routes'
 import cors  from 'cors'
 
 const app = express()
@@ -31,6 +32,7 @@ app.use(limiter)
 
 app.use('/api/auth',authRouter)
 app.use('/api/user',userRouter)
+app.use('/api/offer',offerRouter)
 
 app.get('/', (req:Request, res:Response)=>{
     res.send('Bienvenido al backend (api rest)')
