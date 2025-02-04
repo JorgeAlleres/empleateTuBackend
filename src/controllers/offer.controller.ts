@@ -63,4 +63,8 @@ export class OfferController {
             next(error)
         }
     }
+
+    static async getMyRate(req:Request, res:Response, next: NextFunction){
+        //TODO    
+    }
 }
