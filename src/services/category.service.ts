@@ -1,7 +1,8 @@
+import { prisma } from "../database/database";
 import { HttpException } from "../exceptions/httpException";
-import { Category, PrismaClient } from "prisma/prisma-client";
+import { Category} from "prisma/prisma-client";
 
-const prisma = new PrismaClient()
+
 export class CategoryService {
     static async getAll() {
         const findCategorys = await prisma.category.findMany()

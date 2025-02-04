@@ -1,9 +1,10 @@
+import { prisma } from "../database/database"
 import { HttpException } from "../exceptions/httpException"
 import bcrypt from "bcrypt"
 import jwt from "jsonwebtoken"
-import { PrismaClient, User } from "prisma/prisma-client"
+import { User } from "prisma/prisma-client"
 
-const prisma = new PrismaClient()
+
 const TOKEN_PASSWORD = process.env.TOKEN_PASSWORD || 'pass'
 export class AuthService {
     static async register(user: User) {

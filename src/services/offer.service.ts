@@ -1,7 +1,8 @@
+import { prisma } from "../database/database";
 import { HttpException } from "../exceptions/httpException";
-import { Offer, PrismaClient } from "prisma/prisma-client";
+import { Offer} from "prisma/prisma-client";
 
-const prisma = new PrismaClient()
+
 export class OfferService {
     static async getAll() {
         const findOffers = await prisma.offer.findMany()

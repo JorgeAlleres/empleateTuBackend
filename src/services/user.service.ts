@@ -1,7 +1,7 @@
+import { prisma } from "../database/database";
 import { HttpException } from "../exceptions/httpException";
-import { PrismaClient} from "prisma/prisma-client";
 
-const prisma = new PrismaClient()
+
 export class UserService {
 
     static async getById(id:number) {
