@@ -1,3 +1,4 @@
+import { customJwtPayload } from '@/types/express'
 import {Response, Request, NextFunction} from 'express'
 import jwt from "jsonwebtoken"
 
@@ -11,7 +12,7 @@ export const isAuthenticate = (req:Request, res:Response, next:NextFunction):any
     if(!token) return res.status(401).json({message: 'Access denied'})
     try {
         const tokenDecodificado = jwt.verify(token, TOKEN_PASSWORD)
-        req.body.user = tokenDecodificado
+        req.user = tokenDecodificado as customJwtPayload
         next()
     } catch(error) {
         res.status(401).json({error:'Invalid token'})
