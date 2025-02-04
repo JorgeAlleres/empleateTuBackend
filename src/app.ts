@@ -6,6 +6,7 @@ import cookieParser from 'cookie-parser'
 import authRouter from 'routes/auth.routes'
 import userRouter from 'routes/user.routes'
 import offerRouter from 'routes/offer.routes'
+import categoryRouter from 'routes/category.routes'
 import cors  from 'cors'
 
 const app = express()
@@ -33,6 +34,7 @@ app.use(limiter)
 app.use('/api/auth',authRouter)
 app.use('/api/user',userRouter)
 app.use('/api/offer',offerRouter)
+app.use('/api/category',categoryRouter)
 
 app.get('/', (req:Request, res:Response)=>{
     res.send('Bienvenido al backend (api rest)')
