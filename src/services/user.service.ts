@@ -6,7 +6,7 @@ export class UserService {
 
     static async getById(id:number) {
         const findUser = await prisma.user.findUnique({where:{id}})
-        if(!findUser) throw new Error('User not found')
+        if(!findUser) throw new HttpException(404, 'User not found')
         return findUser
     }
 
