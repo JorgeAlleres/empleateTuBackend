@@ -33,7 +33,7 @@ model User {
 
 model Offer {
   id            Int   @id   @default(autoincrement())
-  tytle         String
+  title         String
   description   String?
   active        Boolean   @default(true)
   contactEmail  String?
