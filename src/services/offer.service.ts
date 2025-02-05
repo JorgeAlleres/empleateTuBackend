@@ -4,33 +4,65 @@ import { Offer } from "prisma/prisma-client";
 
 
 export class OfferService {
-    static async getAll() {
-        const findOffers = await prisma.offer.findMany()
-        return findOffers
+    static async getById(id: number) {
+        const findOffer = await prisma.offer.findUnique({ where: { id } })
+        if (!findOffer) throw new HttpException(404, 'Offer not found')
+        return findOffer
     }
-    static async create(offer: Offer) {
-        const findOffer = await prisma.offer.findFirst({ where: { title: offer.title } })
-        if (findOffer) throw new HttpException(409, `Offer ${offer.title} already exists`)
-        return await prisma.offer.create({ data: { ...offer } })
+    static async getAll(title: string = '') {
+
+        return await prisma.offer.findMany({
+            where: {
+                ...(title && {
+                    title: {
+                        contains: title,
+                        //mode: "insensitive" // Búsqueda sin distinción entre mayúsculas y minúsculas
+                    }
+                })
+            },
+            orderBy: {
+                createdAt: 'desc'
+            },
+            take: 100,
+            include: {
+                category: {
+                    select: {
+                        name: true
+                    }
+                }
+            }
+        });
     }
-    static async delete(idOffer: number) {
-        const offerDeleted = await prisma.offer.delete({ where: { id: idOffer } })
-        if (!offerDeleted) throw new HttpException(409, `OfferID ${idOffer} doesnt exists`)
-        return offerDeleted
-    }
-    static async update(idOffer: number, offer: Offer) {
-        const offerUpdate = await prisma.offer.update({
-            where: { id: idOffer },
-            data: { ...offer }
+    static async create(offer: Offer, idUser: number) {
+        return await prisma.offer.create({
+            data: {
+                ...offer,
+                idUserCreator: idUser
+            } 
         })
-        if (!offerUpdate) throw new HttpException(409, `OfferID ${idOffer} doesnt exists`)
-        return offerUpdate
     }
-    static async rate(idUser: number,idOffer:number, value: number) {
-        const findOffer = await prisma.offer.findUnique({ where: {id:idOffer}})
+    static async delete(id: number) {
+        try {
+            return await prisma.offer.delete({ where: { id } });
+        } catch (error) {
+            throw new HttpException(404, "Offer not found");
+        }
+    }
+    static async update(id: number, offer: Offer) {
+        const findOffer = await prisma.offer.findUnique({where:{id}})
+        if(!findOffer) throw new HttpException(404, 'Offer doesnt exists')
+        return await prisma.offer.update({
+            where: {id},
+            data: {
+                ...offer,
+            } 
+        })
+    }
+    static async rate(idUser: number, idOffer: number, value: number) {
+        const findOffer = await prisma.offer.findUnique({ where: { id: idOffer } })
         if (!findOffer) throw new HttpException(404, 'Offer not exists')
 
-            //TODO poner en un middleware de validacion
+        //TODO poner en un middleware de validacion
         if (value < 0 || value > 5) throw new HttpException(400, 'Rate value most be 0-5')
         prisma.rate.upsert({
             where: {
@@ -52,9 +84,9 @@ export class OfferService {
         // FROM rate
         // where idOffer=id
         const ratingStats = await prisma.rate.aggregate({
-            where:{idOffer},
-            _avg: {value:true},
-            _count: {value:true}
+            where: { idOffer },
+            _avg: { value: true },
+            _count: { value: true }
         })
 
         return {
@@ -64,17 +96,17 @@ export class OfferService {
     }
 
     static async getMyRate(idOffer: number, idUser: number) {
-        const findOffer = await prisma.offer.findUnique({ where: {id:idOffer}})
+        const findOffer = await prisma.offer.findUnique({ where: { id: idOffer } })
         if (!findOffer) throw new HttpException(404, 'Offer not exists')
 
         return await prisma.rate.findUnique({
-            where:{
-                idUser_idOffer:{
+            where: {
+                idUser_idOffer: {
                     idUser,
                     idOffer
                 }
             },
-            select: {value:true}
+            select: { value: true }
         })
     }
 }
