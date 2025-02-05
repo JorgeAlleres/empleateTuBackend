@@ -20,20 +20,20 @@ app.use(cookieParser())
 //Cambiar la url cuando deploy
 
 app.use(cors({
-    origin: '*',
+    origin: ['http://localhost:5173','*'],
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     credentials: true
 }))
 
 const limiter = rateLimit({
-    max: 3,
+    max: 150,
     windowMs: 1000*15*60 //15 minutos
 })
 app.use(limiter)
 
 app.use('/api/auth',authRouter)
-app.use('/api/user',userRouter)
-app.use('/api/offer',offerRouter)
+app.use('/api/users',userRouter)
+app.use('/api/offers',offerRouter)
 app.use('/api/category',categoryRouter)
 
 app.get('/', (req:Request, res:Response)=>{
