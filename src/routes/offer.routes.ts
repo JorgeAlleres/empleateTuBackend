@@ -5,13 +5,15 @@ import { isAuthenticate } from "../middlewares/auth.middleware";
 
 const router = Router()
 
-//Listar todas las ofertas localhost:3000/api/offerts/?title=react&category=DAM
+//Listar todas las ofertas localhost:3000/api/offers/?title=react&category=DAM
 router.get('/', OfferController.getAll)
-//Añadir una oferta nueva POST localhost:3000/api/offerts/{body}
+//Filtrado de las ofertas localhost:3000/api/offers/?title=react&category=DAM
+router.get('/:id', OfferController.getById)
+//Añadir una oferta nueva POST localhost:3000/api/offers/{body}
 router.post('/', isAuthenticate, isAdmin, OfferController.create)
-// DELETE Borrar una oferta localhost:3000/api/offerts/XXXX
+// DELETE Borrar una oferta localhost:3000/api/offers/XXXX
 router.delete('/:id', isAuthenticate, isAdmin, OfferController.delete)
-// MODIFICAR Actualizar una oferta localhost:3000/api/offerts/XXXX  {body}
+// MODIFICAR Actualizar una oferta localhost:3000/api/offers/XXXX  {body}
 router.put('/:id', isAuthenticate, isAdmin, OfferController.update)
 
 //Calificamos una oferta    {body}
