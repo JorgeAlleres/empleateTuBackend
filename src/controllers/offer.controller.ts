@@ -18,7 +18,8 @@ export class OfferController {
 
     static async getAll(req: Request, res: Response, next: NextFunction) {
         try {
-            const offers = await OfferService.getAll()
+            const { title } = req.query;
+            const offers = await OfferService.getAll(title as string)
             res.status(200).json(offers)
         } catch (error) {
             next(error)
