@@ -36,7 +36,7 @@ export class OfferController {
             next(error)
         }
     }
-    static async delete(idOffer:number, req:Request, res:Response, next:NextFunction) {
+    static async delete(req:Request, res:Response, next:NextFunction) {
         try {
             const id = Number.parseInt(req.params.id)
             if (isNaN(id)) throw new HttpException(400, "Invalid offer ID");
