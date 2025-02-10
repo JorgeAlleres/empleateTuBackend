@@ -20,7 +20,7 @@ app.use(cookieParser())
 //Cambiar la url cuando deploy
 
 app.use(cors({
-    origin: ['http://localhost:5173','*'],
+    origin: ['http://localhost:5173','https://empleatetubackend-vl3k.onrender.com' ,'*'],
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     credentials: true
 }))
